@@ -15,6 +15,7 @@ const Panic = () => {
   const [claimMode, setClaimMode] = useState(false);
   const [apiData, setApiData] = useState(false);
   const [stage, setStage] = useState(0);
+  const [safeAddress, setSafeAddress] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const router = useRouter()
@@ -29,7 +30,8 @@ const Panic = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       setWallet(localStorage.getItem("wallet"));
-      setPanic({...panic, safeAddress: localStorage.getItem("account")})
+      setSafeAddress(localStorage.getItem("biconomyAddress"));
+      setPanic({...panic, safeAddress: localStorage.getItem("biconomyAddress")});
       console.log(wallet);
     }
   }, []);
@@ -300,7 +302,7 @@ const Panic = () => {
                     }
                     type="text"
                     className="bg-gray-100 border-2 border-gray-300 text-gray-700 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
-                    placeholder="Safe Address"
+                    placeholder={!safeAddress ? `Safe Address` : safeAddress}
                   />
                   <br />
                   

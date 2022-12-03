@@ -74,8 +74,8 @@ const SCW = () => {
   };
 
   useEffect(() => {
-    if(localStorage.getItem("account")) {
-        setAccount(localStorage.getItem("account"))
+    if(localStorage.getItem("biconomyAddress")) {
+        setAccount(localStorage.getItem("biconomyAddress"))
     }
     async function setupSmartAccount() {
       setScwAddress("");
@@ -105,7 +105,7 @@ const SCW = () => {
        
         <button
             className={`text-white font-bold py-2 px-4 rounded ${account ? 'bg-green-500' : 'bg-[#6360D8] '}`}
-        onClick={() => !account ? connectWeb3() : disconnectWeb3()}
+        onClick={() => !account ? connectWeb3() : navigator.clipboard.writeText(account)}
         >
           {!account ? "Generate Safe Address using biconomy" : "Safe Address Generated using biconomy"}
         </button>
