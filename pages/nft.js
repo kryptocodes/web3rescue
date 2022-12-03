@@ -6,6 +6,7 @@ import axios from "axios";
 import { API } from "./_app";
 
 import { ethers } from "ethers";
+import { useRouter } from 'next/router'
 import { FlashbotsBundleProvider } from "@flashbots/ethers-provider-bundle";
 
 const Collectibiles = () => {
@@ -17,6 +18,7 @@ const Collectibiles = () => {
   const [token,setToken] = useState(false)
 
   const [loading, setLoading] = useState(false);
+  const router = useRouter()
   useEffect(() => {
     if (typeof window !== "undefined") {
       setWallet(localStorage.getItem("wallet"));
@@ -89,35 +91,37 @@ const ERC20Tx = async(e) => {
 
   
 
-  const SideLink = (Icon, Text, active = false) => (
-    <>
-      <li className="relative">
-        <a
-          className={`flex items-center text-sm py-4 px-6 h-12 overflow-hidden  text-ellipsis whitespace-nowrap rounded  transition duration-300 ease-in-out ${
-            active ? "bg-red-500 text-white" : "text-black"
+  
+const SideLink = (Icon, Text, active = false,link) => (
+  <>
+    <li className="relative">
+      <a
+      onClick={(() => router.push(link))}
+        className={`flex items-center text-sm py-4 px-6 h-12 overflow-hidden  text-ellipsis whitespace-nowrap rounded  transition duration-300 ease-in-out ${
+          active ? "bg-red-500 text-white" : "text-black"
+        }`}
+        href="#!"
+        data-mdb-ripple="true"
+        data-mdb-ripple-color="dark"
+      >
+        <span
+          className={`flex items-center justify-center w-8 h-8 rounded-full ${
+            active ? "" : "bg-gray-100"
           }`}
-          href="#!"
-          data-mdb-ripple="true"
-          data-mdb-ripple-color="dark"
         >
-          <span
-            className={`flex items-center justify-center w-8 h-8 rounded-full ${
-              active ? "" : "bg-gray-100"
-            }`}
-          >
-            <Image
-              src={Icon}
-              alt="icon"
-              className="mx-auto object-cover object-center "
-              width={20}
-              height={20}
-            />
-          </span>
-          <span className="flex-grow mx-4 font-medium">{Text}</span>
-        </a>
-      </li>
-    </>
-  );
+          <Image
+            src={Icon}
+            alt="icon"
+            className="mx-auto object-cover object-center "
+            width={20}
+            height={20}
+          />
+        </span>
+        <span className="flex-grow mx-4 font-medium">{Text}</span>
+      </a>
+    </li>
+  </>
+);
 
   const SideBar = () => (
     <div className="w-60 h-full shadow-md bg-white px-1 w-1/6">
@@ -148,9 +152,10 @@ const ERC20Tx = async(e) => {
             </span>
           </a>
         </li>
-        {SideLink(require("../assets/panic.png"), "Panic Mode")}
-        {SideLink(require("../assets/collectibles.png"), "Collectibles",true)}
-        {SideLink(require("../assets/add.png"), "ERC-20 Tokens")}
+        {SideLink(require("../assets/panic.png"), "Panic Mode", false,"/panic")}
+        {SideLink(require("../assets/collectibles.png"), "Collectibles",true,"/nft")}
+        {SideLink(require("../assets/add.png"), "ERC-20 Tokens", false,"/erc20")}
+        {SideLink(require("../assets/ens.png"), "ENS", false,"/ens")}
       </ul>
     </div>
   );

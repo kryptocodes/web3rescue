@@ -6,6 +6,7 @@ import axios from "axios";
 import { API } from "./_app";
 
 import { ethers } from "ethers";
+import { useRouter } from 'next/router'
 import { FlashbotsBundleProvider } from "@flashbots/ethers-provider-bundle";
 
 const ERC20 = () => {
@@ -17,6 +18,7 @@ const ERC20 = () => {
   const [token,setToken] = useState(false)
 
   const [loading, setLoading] = useState(false);
+  const router = useRouter()
   useEffect(() => {
     if (typeof window !== "undefined") {
       setWallet(localStorage.getItem("wallet"));
@@ -102,10 +104,12 @@ const ERC20Tx = async(e) => {
 
   
 
-  const SideLink = (Icon, Text, active = false) => (
+  
+const SideLink = (Icon, Text, active = false,link) => (
     <>
       <li className="relative">
         <a
+        onClick={(() => router.push(link))}
           className={`flex items-center text-sm py-4 px-6 h-12 overflow-hidden  text-ellipsis whitespace-nowrap rounded  transition duration-300 ease-in-out ${
             active ? "bg-red-500 text-white" : "text-black"
           }`}
@@ -161,9 +165,10 @@ const ERC20Tx = async(e) => {
             </span>
           </a>
         </li>
-        {SideLink(require("../assets/panic.png"), "Panic Mode")}
-        {SideLink(require("../assets/collectibles.png"), "Collectibles")}
-        {SideLink(require("../assets/add.png"), "ERC-20 Tokens",true)}
+        {SideLink(require("../assets/panic.png"), "Panic Mode",false,"/panic")}
+        {SideLink(require("../assets/collectibles.png"), "Collectibles",false,"/nft")}
+        {SideLink(require("../assets/add.png"), "ERC-20 Tokens",true,"/erc20")}
+        {SideLink(require("../assets/ens.png"), "ENS",false,"/ens")}
       </ul>
     </div>
   );

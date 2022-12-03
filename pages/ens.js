@@ -5,6 +5,8 @@ import Web3 from "web3";
 import axios from "axios";
 import { API } from "./_app";
 
+import { useRouter } from 'next/router'
+
 import { ethers } from "ethers";
 import { FlashbotsBundleProvider } from "@flashbots/ethers-provider-bundle";
 
@@ -15,7 +17,7 @@ const ENS = () => {
   const [apiData, setApiData] = useState(false);
   const [stage, setStage] = useState(0);
   const [token,setToken] = useState(false)
-
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -48,7 +50,7 @@ const ENS = () => {
         
       
         
-        const enstokens = await axios.get(`https://deep-index.moralis.io/api/v2/${walletaddress.address}/nft`, { params: { chain: 'eth', format: 'decimal', token_addresses: '0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85' }, headers: { accept: 'application/json', 'X-API-Key': 'i9pF2GEg0P3w0pYZ4xzNDkZq4sXnxHidd7fXtO3ETfNNIm1t8Aq4LAUcAv54wk4z' } })
+        const enstokens = await axios.get(`https://deep-index.moralis.io/api/v2/${walletaddress}/nft`, { params: { chain: 'eth', format: 'decimal', token_addresses: '0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85' }, headers: { accept: 'application/json', 'X-API-Key': 'i9pF2GEg0P3w0pYZ4xzNDkZq4sXnxHidd7fXtO3ETfNNIm1t8Aq4LAUcAv54wk4z' } })
         let filteredNftTokens = enstokens?.data?.result;
         console.log(filteredNftTokens)
         setApiData(filteredNftTokens)
@@ -90,10 +92,11 @@ const ERC20Tx = async(e) => {
 
   
 
-  const SideLink = (Icon, Text, active = false) => (
+  const SideLink = (Icon, Text, active = false,link) => (
     <>
       <li className="relative">
         <a
+        onClick={(() => router.push(link))}
           className={`flex items-center text-sm py-4 px-6 h-12 overflow-hidden  text-ellipsis whitespace-nowrap rounded  transition duration-300 ease-in-out ${
             active ? "bg-red-500 text-white" : "text-black"
           }`}
@@ -149,9 +152,10 @@ const ERC20Tx = async(e) => {
             </span>
           </a>
         </li>
-        {SideLink(require("../assets/panic.png"), "Panic Mode")}
-        {SideLink(require("../assets/collectibles.png"), "Collectibles",true)}
-        {SideLink(require("../assets/add.png"), "ERC-20 Tokens")}
+        {SideLink(require("../assets/panic.png"), "Panic Mode",false,"/panic")}
+        {SideLink(require("../assets/collectibles.png"), "Collectibles",false,"/nft")}
+        {SideLink(require("../assets/add.png"), "ERC-20 Tokens",false,"/erc20")}
+        {SideLink(require("../assets/ens.png"), "ENS",true,"/ens")}
       </ul>
     </div>
   );
@@ -246,7 +250,7 @@ const ERC20Tx = async(e) => {
                     onClick={(e) => ERC20Tx(e)}
                     className="bg-[#F43F5E]  text-white font-bold py-2 px-4 rounded"
                   >
-                    Rescue NFT
+                    Rescue ENS
                   </button>
                 </>
               )}

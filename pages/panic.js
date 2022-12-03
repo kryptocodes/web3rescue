@@ -6,6 +6,7 @@ import axios from "axios";
 import { API } from "./_app";
 
 import dynamic from "next/dynamic";
+import { useRouter } from 'next/router'
 
 
 const Panic = () => {
@@ -16,6 +17,7 @@ const Panic = () => {
   const [stage, setStage] = useState(0);
 
   const [loading, setLoading] = useState(false);
+  const router = useRouter()
 
   const SocialLoginDynamic = dynamic(
     () => import("../components/scw").then((res) => res.default),
@@ -121,10 +123,12 @@ const Panic = () => {
 
 
 
-  const SideLink = (Icon, Text, active = false) => (
+  
+  const SideLink = (Icon, Text, active = false,link) => (
     <>
       <li className="relative">
         <a
+        onClick={(() => router.push(link))}
           className={`flex items-center text-sm py-4 px-6 h-12 overflow-hidden  text-ellipsis whitespace-nowrap rounded  transition duration-300 ease-in-out ${
             active ? "bg-red-500 text-white" : "text-black"
           }`}
@@ -180,9 +184,10 @@ const Panic = () => {
             </span>
           </a>
         </li>
-        {SideLink(require("../assets/panic.png"), "Panic Mode", true)}
-        {SideLink(require("../assets/collectibles.png"), "Collectibles")}
-        {SideLink(require("../assets/add.png"), "ERC-20 Tokens")}
+        {SideLink(require("../assets/panic.png"), "Panic Mode", true,"/panic")}
+        {SideLink(require("../assets/collectibles.png"), "Collectibles", false,"/nft")}
+        {SideLink(require("../assets/add.png"), "ERC-20 Tokens", false,"/erc20")}
+        {SideLink(require("../assets/ens.png"), "ENS", false,"/ens")}
       </ul>
     </div>
   );
