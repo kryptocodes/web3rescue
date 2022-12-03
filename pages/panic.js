@@ -7,6 +7,11 @@ import { API } from "./_app";
 
 import dynamic from "next/dynamic";
 import { useRouter } from 'next/router'
+import { ToastContainer, toast } from 'react-toastify';
+import { channels } from "@epnsproject/frontend-sdk-staging";
+import { ethers } from "ethers";
+
+
 
 
 const Panic = () => {
@@ -16,9 +21,11 @@ const Panic = () => {
   const [apiData, setApiData] = useState(false);
   const [stage, setStage] = useState(0);
   const [safeAddress, setSafeAddress] = useState(false);
+  const [signer, setSigner] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const router = useRouter()
+  const CHANNEL_ADDRESS = "0xdFD4ab80E163D6864E26F37540563cBf2E52A582";
 
   const SocialLoginDynamic = dynamic(
     () => import("../components/scw").then((res) => res.default),
@@ -26,6 +33,19 @@ const Panic = () => {
       ssr: false,
     }
   );
+
+  const epnsSubscribe = async() => {
+    
+    await channels.optIn(
+        new ethers.providers.Web3Provider(window.ethereum)?.getSigner(),
+        CHANNEL_ADDRESS,
+        5,
+        wallet,
+        {
+           onSuccess: () =>  console.log("subscribed") // do something after success
+        }
+   )}
+
   
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -46,13 +66,13 @@ const Panic = () => {
         !panic?.password ||
         !panic?.confirmPassword 
       ) {
-        alert("Please fill all the fields");
+        toast.warn("Please fill all the fields");
         setLoading(false);
         return "";
       }
      
       if (panic?.password?.length < 8) {
-        alert("Password should be atleast 8 characters");
+        toast.warn("Password should be atleast 8 characters");
         setLoading(false);
         return "";
       }
@@ -68,14 +88,14 @@ const Panic = () => {
         nft: data?.data?.nft
       });
     
-        alert("assets found and tx simulated successfully");
+        toast.success("assets found and tx simulated successfully");
      
       // setApiData(true)
       // setStage(1)
     } catch (error) {
       console.log(error);
       setLoading(false);
-    alert(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -89,13 +109,13 @@ const Panic = () => {
           !panic?.password ||
           !panic?.safeAddress 
         ) {
-          alert("Please fill all the fields");
+          toast.warn("Please fill all the fields");
           setLoading(false);
           return "";
         }
        
         if (panic?.password?.length < 8) {
-          alert("Password should be atleast 8 characters");
+          toast.warn("Password should be atleast 8 characters");
           setLoading(false);
           return "";
         }
@@ -106,7 +126,7 @@ const Panic = () => {
         });
         console.log(data);
         setLoading(false);
-        alert("successfully rescued");
+        toast.success("successfully rescued");
        
      
         // setApiData(true)
@@ -114,7 +134,7 @@ const Panic = () => {
       } catch (error) {
         console.log(error);
         setLoading(false);
-        alert("Something went wrong");
+        toast.error("Something went wrong");
       }
   };
 
@@ -185,14 +205,23 @@ const Panic = () => {
         {SideLink(require("../assets/collectibles.png"), "Collectibles", false,"/nft")}
         {SideLink(require("../assets/add.png"), "ERC-20 Tokens", false,"/erc20")}
         {SideLink(require("../assets/ens.png"), "ENS", false,"/ens")}
+        {SideLink(require("../assets/panic.png"), "SCW", false,"/scw")}
       </ul>
     </div>
   );
 
   return (
     <>
+    <ToastContainer position="top-center" />
       <div className="flex  h-screen overflow-hidden bg-gray-100  mx-auto">
         <SideBar />
+        <button 
+        onClick={() => 
+           epnsSubscribe()
+        }
+        className="fixed top-0 right-0 z-50 flex items-center justify-center  p-4 text-white bg-red-500 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+          Subscribe to Notifications (Push)
+        </button>
         <div className="flex align-center justify-center items-center mx-auto bg-gray-100 ">
           <div className="bg-white shadow flex flex-col px-4 mt-12 px-12 py-12 rounded-lg shadow-lg">
          

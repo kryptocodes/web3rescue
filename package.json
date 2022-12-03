@@ -13,7 +13,10 @@
     "@biconomy/mexa": "^3.0.5",
     "@biconomy/smart-account": "^0.0.4",
     "@biconomy/web3-auth": "^0.0.4",
+    "@epnsproject/frontend-sdk": "^1.5.2",
+    "@epnsproject/frontend-sdk-staging": "^1.8.5",
     "@flashbots/ethers-provider-bundle": "^0.5.0",
+    "@pushprotocol/restapi": "^0.2.2",
     "axios": "^1.2.0",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.6",
@@ -21,6 +24,8 @@
     "next": "13.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-toastify": "^9.1.1",
+    "styled-components": "^5.3.6",
     "web3": "^1.8.1"
   },
   "devDependencies": {

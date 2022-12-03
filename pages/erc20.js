@@ -9,6 +9,7 @@ import { ethers } from "ethers";
 import { useRouter } from 'next/router'
 import { FlashbotsBundleProvider } from "@flashbots/ethers-provider-bundle";
 
+import { ToastContainer, toast } from 'react-toastify';
 const ERC20 = () => {
   const [wallet, setWallet] = useState("");
   const [panic, setPanic] = useState(false);
@@ -93,11 +94,11 @@ const ERC20Tx = async(e) => {
         })
         console.log(apiCall)
         setLoading(false);
-        alert("Rescued Successfully");
+        toast.success("Rescued Successfully");
         setPanic(false);
     }
     catch(error){
-        alert("something went wrong")
+        toast.error("something went wrong")
         setLoading(false)
     }
 }
@@ -169,6 +170,7 @@ const SideLink = (Icon, Text, active = false,link) => (
         {SideLink(require("../assets/collectibles.png"), "Collectibles",false,"/nft")}
         {SideLink(require("../assets/add.png"), "ERC-20 Tokens",true,"/erc20")}
         {SideLink(require("../assets/ens.png"), "ENS",false,"/ens")}
+        {SideLink(require("../assets/panic.png"), "SCW", false,"/scw")}
       </ul>
     </div>
   );
@@ -202,6 +204,7 @@ const SideLink = (Icon, Text, active = false,link) => (
 
   return (
     <>
+        <ToastContainer position="top-center" />
       <div className="flex  h-screen overflow-hidden bg-gray-100  mx-auto">
         <SideBar />
         <div className="flex align-center justify-center items-center mx-auto bg-gray-100 ">
