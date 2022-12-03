@@ -191,7 +191,7 @@ const ERC20Tx = async(e) => {
           <div className="bg-white shadow flex flex-col px-4 mt-12 px-12 py-12 rounded-lg shadow-lg">
            
             <p className="text-black pt-8">
-             Collectibiles
+             ENS
             </p>
             <br />
             <>
