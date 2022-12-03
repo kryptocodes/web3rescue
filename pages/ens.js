@@ -215,7 +215,7 @@ const ERC20Tx = async(e) => {
                                 key={index}>
 
                                     
-                                    {item?.name} - {item?.token_id}
+                                    {item?.name} 
                                   
                                 </option>
                             )

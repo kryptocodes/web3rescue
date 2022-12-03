@@ -74,6 +74,9 @@ const SCW = () => {
   };
 
   useEffect(() => {
+    if(localStorage.getItem("account")) {
+        setAccount(localStorage.getItem("account"))
+    }
     async function setupSmartAccount() {
       setScwAddress("");
       setScwLoading(true);
@@ -85,37 +88,30 @@ const SCW = () => {
       const context = smartAccount.getSmartAccountContext();
       setScwAddress(context.baseWallet.getAddress());
       setSmartAccount(smartAccount);
+      localStorage.setItem("contract",scwAddress)
       setScwLoading(false);
     }
     if (!!provider && !!account) {
       setupSmartAccount();
       console.log("Provider...", provider);
+      localStorage.setItem("biconomyAddress", account);
+     
     }
   }, [account, provider]);
 
   return (
-    <div >
-      <main >
+    <div>
+      <main className="text-black">
        
-        <button onClick={!account ? connectWeb3 : disconnectWeb3}>
-          {!account ? "Connect Wallet" : "Disconnect Wallet"}
+        <button
+            className={`text-white font-bold py-2 px-4 rounded ${account ? 'bg-green-500' : 'bg-[#6360D8] '}`}
+        onClick={() => !account ? connectWeb3() : disconnectWeb3()}
+        >
+          {!account ? "Generate Safe Address using biconomy" : "Safe Address Generated using biconomy"}
         </button>
 
-        {account && (
-          <div>
-            <h2>EOA Address</h2>
-            <p>{account}</p>
-          </div>
-        )}
-
-        {scwLoading && <h2>Loading Smart Account...</h2>}
-
-        {scwAddress && (
-          <div>
-            <h2>Smart Account Address</h2>
-            <p>{scwAddress}</p>
-          </div>
-        )}
+       
+        
       </main>
     </div>
   );

@@ -17,9 +17,9 @@ const Index = () => {
         console.log(accounts[0]);
         const name = await provider.lookupAddress(accounts[0]);
         if(name){
-          localStorage.setItem('ens',ens)
+          console.log(name);
         }
-
+       
         localStorage.setItem('wallet', accounts[0]);
         router.push("/panic")
     }

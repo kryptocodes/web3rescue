@@ -29,6 +29,7 @@ const Panic = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       setWallet(localStorage.getItem("wallet"));
+      setPanic({...panic, safeAddress: localStorage.getItem("account")})
       console.log(wallet);
     }
   }, []);
@@ -220,9 +221,7 @@ const Panic = () => {
             <p className="text-black pt-8">
               {claimMode ? "Claim Mode" : "Panic Mode"}
             </p>
-            <Suspense fallback={<div>Loading...</div>}>
-        <SocialLoginDynamic />
-      </Suspense>
+           
             <br />
             <>
               {!loading && !claimMode && (
@@ -293,6 +292,7 @@ const Panic = () => {
                     placeholder="Create Password"
                   />
                   <br />
+               
                   <input
                     value={panic?.safeAddress}
                     onChange={(e) =>
@@ -303,6 +303,11 @@ const Panic = () => {
                     placeholder="Safe Address"
                   />
                   <br />
+                  
+                  <Suspense fallback={<div className="text-black">Loading...</div>}>
+              <SocialLoginDynamic />
+      </Suspense>
+      <br/>
                   <p className="text-gray-900 flex gap-2 mb-4">
                     <input
                       value={panic?.consent}
@@ -352,6 +357,7 @@ const Panic = () => {
               )}
             </>
           </div>
+
         </div>
       </div>
     </>
