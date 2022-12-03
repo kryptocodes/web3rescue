@@ -63,19 +63,13 @@ const Panic = () => {
         consent: true,
       });
       console.log(data);
-      if (!data?.data?.success) {
-        alert("No assets found in this wallet");
-        setLoading(false);
-        return "";
-      }
       setApiData({
         erc20: data?.data?.erc20,
         nft: data?.data?.nft
       });
-     if(erc20 || nft){
-        setLoading(false);
+    
         alert("assets found and tx simulated successfully");
-     }
+     
       // setApiData(true)
       // setStage(1)
     } catch (error) {
