@@ -87,7 +87,7 @@ const Panic = () => {
         erc20: data?.data?.erc20,
         nft: data?.data?.nft
       });
-    
+        setLoading(false);
         toast.success("assets found and tx simulated successfully");
      
       // setApiData(true)
@@ -127,10 +127,6 @@ const Panic = () => {
         console.log(data);
         setLoading(false);
         toast.success("successfully rescued");
-       
-     
-        // setApiData(true)
-        // setStage(1)
       } catch (error) {
         console.log(error);
         setLoading(false);
