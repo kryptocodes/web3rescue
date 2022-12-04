@@ -35,9 +35,11 @@ const Panic = () => {
   );
 
   const epnsSubscribe = async() => {
-    
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("wallet_switchEthereumChain", [{ chainId: "0x5" }]);
+    const signer = await provider.getSigner();
     await channels.optIn(
-        new ethers.providers.Web3Provider(window.ethereum)?.getSigner(),
+      signer,
         CHANNEL_ADDRESS,
         5,
         wallet,
